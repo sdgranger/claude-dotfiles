@@ -15,6 +15,8 @@ model=$(get_val "display_name")
 used=$(get_num "used_percentage")
 
 parts=""
+# Shorten home prefix to ~/
+case "$cwd" in "$HOME"*) cwd="~${cwd#$HOME}" ;; esac
 [ -n "$cwd" ] && parts="$cwd"
 
 [ -n "$model" ] && {
