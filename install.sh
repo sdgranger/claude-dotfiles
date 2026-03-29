@@ -13,30 +13,14 @@ echo ""
 # Ensure ~/.claude exists
 mkdir -p "$CLAUDE_DIR"
 
-# Check for jq dependency
-if ! command -v jq &>/dev/null; then
-  echo "[ERROR] jq is required for the status line. Install it first:"
-  echo "  macOS:  brew install jq"
-  echo "  Ubuntu: sudo apt install jq"
-  exit 1
-fi
-
 # --- settings.json ---
-# Merge strategy: if settings.json already exists, merge our keys into it
-# (preserves any machine-specific additions like permissions)
 if [ -f "$CLAUDE_DIR/settings.json" ]; then
-  echo "[settings.json] Existing file found — merging..."
-  # Backup existing
+  echo "[settings.json] Existing file found — backing up and replacing..."
   cp "$CLAUDE_DIR/settings.json" "$CLAUDE_DIR/settings.json.bak"
-  # Deep merge: repo settings take priority
-  jq -s '.[0] * .[1]' "$CLAUDE_DIR/settings.json" "$SCRIPT_DIR/settings.json" \
-    > "$CLAUDE_DIR/settings.json.tmp"
-  mv "$CLAUDE_DIR/settings.json.tmp" "$CLAUDE_DIR/settings.json"
   echo "  Backup saved as settings.json.bak"
-else
-  echo "[settings.json] Installing..."
-  cp "$SCRIPT_DIR/settings.json" "$CLAUDE_DIR/settings.json"
 fi
+cp "$SCRIPT_DIR/settings.json" "$CLAUDE_DIR/settings.json"
+echo "[settings.json] Installed."
 
 # --- statusline-command.sh ---
 echo "[statusline-command.sh] Installing..."

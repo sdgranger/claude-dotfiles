@@ -1,11 +1,20 @@
 #!/bin/sh
 input=$(cat)
-cwd=$(echo "$input" | jq -r '.cwd // .workspace.current_dir // empty')
-model=$(echo "$input" | jq -r '.model.display_name // empty')
-used=$(echo "$input" | jq -r '.context_window.used_percentage // empty')
+
+# Extract JSON values without jq using grep+sed
+get_val() {
+  echo "$input" | grep -o "\"$1\"[[:space:]]*:[[:space:]]*\"[^\"]*\"" | sed 's/.*:[[:space:]]*"//;s/"$//' | head -1
+}
+get_num() {
+  echo "$input" | grep -o "\"$1\"[[:space:]]*:[[:space:]]*[0-9.]*" | sed 's/.*:[[:space:]]*//' | head -1
+}
+
+cwd=$(get_val "cwd")
+[ -z "$cwd" ] && cwd=$(get_val "current_dir")
+model=$(get_val "display_name")
+used=$(get_num "used_percentage")
 
 parts=""
-
 [ -n "$cwd" ] && parts="$cwd"
 
 [ -n "$model" ] && {
