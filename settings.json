@@ -5,18 +5,7 @@
   },
   "model": "opus",
   "enabledPlugins": {
-    "superpowers@claude-plugins-official": true,
     "firecrawl@claude-plugins-official": true,
     "explanatory-output-style@claude-plugins-official": true,
-    "ralph-loop@claude-plugins-official": true,
-    "skill-creator@claude-plugins-official": true
-  },
-  "extraKnownMarketplaces": {
-    "ralph-marketplace": {
-      "source": {
-        "source": "git",
-        "url": "https://github.com/snarktank/ralph.git"
-      }
-    }
   }
 }
