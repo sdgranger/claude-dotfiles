@@ -13,7 +13,7 @@ echo ""
 # Ensure ~/.claude exists
 mkdir -p "$CLAUDE_DIR"
 
---- settings.json ---
+# --- settings.json ---
 if [ -f "$CLAUDE_DIR/settings.json" ]; then
   echo "[settings.json] Existing file found — backing up and replacing..."
   cp "$CLAUDE_DIR/settings.json" "$CLAUDE_DIR/settings.json.bak"
